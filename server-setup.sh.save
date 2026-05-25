@@ -3,7 +3,7 @@
 # server-setup.sh - Initial server configuration for Speech Labeling Interface
 # Week 2: SSH Deployment Lab
 
-set -e
+#set -e
 
 # Colors for output
 RED='\033[0;31m'
@@ -51,7 +51,6 @@ sudo chown ec2-user:ec2-user /opt/audio /opt/data
 # Create logs directory
 sudo mkdir -p /var/log/speech-labeling
 sudo chown ec2-user:ec2-user /var/log/speech-labeling
-
 
 
 
