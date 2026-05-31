@@ -195,6 +195,21 @@ def serve_audio_segment():
 
 
 @app.route("/")
+def hello():
+    """
+    Landing page banner that proves this build was shipped by the
+    automated CI/CD pipeline rather than a manual deployment.
+    """
+    return f'''
+    <h1>Hello from Automated CI/CD Pipeline!</h1>
+    <p><strong>Version:</strong> {APP_VERSION} - Automated Deployment</p>
+    <p><strong>Deployed via:</strong> GitHub Actions + AWS SSM</p>
+    <p><strong>Build Date:</strong> {DEPLOYMENT_TIME}</p>
+    <p><strong>Assignment:</strong> Automated EC2 Deployment</p>
+    '''
+
+
+@app.route("/app")
 def index():
     """
     Renders the main HTML page for the client-side audio player.
