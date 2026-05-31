@@ -1,8 +1,9 @@
-# Version: 1.0.1
-# Built with GitHub Actions
+# Version: 2.0 - Automated Deployment
+# Deployed via: GitHub Actions + AWS SSM
 import os
 import re
 import csv
+from datetime import datetime
 from io import StringIO
 from flask import (
     Flask,
@@ -18,6 +19,12 @@ import tempfile
 
 app = Flask(__name__)
 CORS(app)
+
+# Deployment metadata
+APP_VERSION = "2.0"
+DEPLOYMENT_METHOD = "automated"  # GitHub Actions + AWS SSM
+# Captured once at container startup, so it reflects the deployment time
+DEPLOYMENT_TIME = datetime.now().isoformat()
 
 # Global variables for playlist management
 current_directory = None
@@ -193,6 +200,22 @@ def index():
     Renders the main HTML page for the client-side audio player.
     """
     return render_template("index.html")
+
+
+@app.route("/health")
+def health():
+    """
+    Health/version endpoint used to verify the automated deployment.
+    Distinguishes this CI/CD-deployed build from previous manual deployments.
+    """
+    return {
+        "status": "healthy",
+        "version": APP_VERSION,
+        "deployment_method": DEPLOYMENT_METHOD,
+        "deployed_via": "GitHub Actions + AWS SSM",
+        "deployment_time": DEPLOYMENT_TIME,
+        "timestamp": datetime.now().isoformat(),
+    }
 
 
 @app.route("/select_directory", methods=["POST"])
